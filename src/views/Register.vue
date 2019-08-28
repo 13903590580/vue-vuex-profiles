@@ -7,47 +7,36 @@
           <h1 class="display-4 text-center">注册</h1>
           <p class="lead text-center">创建一个新的账号</p>
           <form @submit.prevent="handleSubmit" autocomplete="off" method="post">
-            <div class="form-group">
-              <input
-                v-model="newUser.name"
-                type="text"
-                class="form-control form-control-lg"
-                placeholder="Name"
-                name="name"
-                required
-              />
-            </div>
-            <div class="form-group">
-              <input
-                v-model="newUser.email"
-                type="email"
-                class="form-control form-control-lg"
-                placeholder="Email Address"
-                name="email"
-              />
-              <small class="form-text text-muted">
-                This site uses Gravatar so if you want a profile image, use a
-                Gravatar email
-              </small>
-            </div>
-            <div class="form-group">
-              <input
-                v-model="newUser.password"
-                type="password"
-                class="form-control form-control-lg"
-                placeholder="Password"
-                name="password"
-              />
-            </div>
-            <div class="form-group">
-              <input
-                v-model="newUser.password2"
-                type="password"
-                class="form-control form-control-lg"
-                placeholder="Confirm Password"
-                name="password2"
-              />
-            </div>
+            <TextFieldGroup
+              v-model="newUser.name"
+              type="name"
+              placeholder="Name"
+              name="name"
+              :error="errors.name"
+            />
+            <TextFieldGroup
+              v-model="newUser.email"
+              type="email"
+              placeholder="Email Address"
+              name="email"
+              info="This site uses Gravatar so if you want a profile image, use a
+                Gravatar email"
+              :error="errors.email"
+            />
+            <TextFieldGroup
+              v-model="newUser.password"
+              type="password"
+              placeholder="Password"
+              name="password"
+              :error="errors.password"
+            />
+            <TextFieldGroup
+              v-model="newUser.password2"
+              type="password"
+              placeholder="Confirm Password"
+              name="password2"
+              :error="errors.password2"
+            />
             <input type="submit" class="btn btn-info btn-block mt-4" />
           </form>
         </div>
@@ -57,8 +46,13 @@
 </template>
 
 <script>
+import { maxHeaderSize } from "http";
+import TextFieldGroup from "../components/common/TextFieldGroup";
 export default {
   name: "register",
+  components: {
+    TextFieldGroup
+  },
   data() {
     return {
       newUser: {
@@ -77,20 +71,12 @@ export default {
         .post("/api/users/register", this.newUser)
         .then(res => {
           this.$router.push("/login");
-          // this.$router.push({ name: "/login", params: "helloword" });
-          // this.$router.replace("/login");
-          // this.$router.replace({ name: "/login", params: "helloword" });
-          // this.$router.go(-1);
         })
         .catch(err => {
-          this.errors = err.response.data;
+          if (err.response.data) {
+            this.errors = err.response.data;
+          }
         });
-      // 同源策略   只要不同源，就是跨域
-      /** http://localhost:8080/
-       * 1.请求头 http:// https:// file://
-       * 2.域名   localhost / 127.0.0.1 /www.baidu.com
-       * 3.端口号 :8080 :8081 :5000 :5001
-       */
     }
   }
 };

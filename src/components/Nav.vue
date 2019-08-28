@@ -15,11 +15,18 @@
         </ul>
 
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
+          <li v-if="isLogin" class="nav-item">
+            <router-link class="nav-link" to="/dashboard">Dashboard</router-link>
+          </li>
+          <li v-if="!isLogin" class="nav-item">
             <router-link class="nav-link" to="/register">注册</router-link>
           </li>
-          <li class="nav-item">
+          <li v-if="!isLogin" class="nav-item">
             <router-link class="nav-link" to="/login">登录</router-link>
+          </li>
+          <li v-if="isLogin && user != null" class="nav-item">
+            <a class="nav-link" @click.prevent="logout">注销</a>
+            <img class="rounded-circle headerImg" :src="user.avatar" />
           </li>
         </ul>
       </div>
@@ -28,10 +35,23 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
-  name: "app-nav"
+  name: "app-nav",
+  computed: mapGetters(["isLogin", "user"]),
+  methods: {
+    logout() {
+      localStorage.removeItem("jwtToken");
+      this.$store.dispatch("setIsLoginAsync", false);
+      this.$router.push("/login");
+    }
+  }
 };
 </script>
 
 <style scoped>
+.headerImg {
+  width: 25px;
+  margin-right: 5px;
+}
 </style>

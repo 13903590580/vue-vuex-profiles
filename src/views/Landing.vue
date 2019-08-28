@@ -7,8 +7,8 @@
             <h1 class="display-3 mb-4">开发者</h1>
             <p class="lead">更多内容</p>
             <hr />
-            <router-link to="/register" class="btn btn-lg btn-info mr-2">注册</router-link>
-            <router-link to="/login" class="btn btn-lg btn-light">登录</router-link>
+            <router-link v-if="!isLogin" to="/register" class="btn btn-lg btn-info mr-2">注册</router-link>
+            <router-link v-if="!isLogin" to="/login" class="btn btn-lg btn-light">登录</router-link>
           </div>
         </div>
       </div>
@@ -17,9 +17,10 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   name: "landing",
-  components: {}
+  computed: mapGetters(["isLogin"])
 };
 </script>
 

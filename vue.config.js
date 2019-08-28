@@ -18,3 +18,10 @@ module.exports = {
         before: app => { }
     }
 }
+
+// 同源策略   只要不同源，就是跨域
+/** http://localhost:8080/
+ * 1.请求头 http:// https:// file://
+ * 2.域名   localhost / 127.0.0.1 /www.baidu.com
+ * 3.端口号 :8080 :8081 :5000 :5001
+ */
