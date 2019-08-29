@@ -5,7 +5,7 @@
       <div class="row">
         <div class="col-md-8 m-auto">
           <a @click.prevent="$router.go(-1)" class="btn btn-light">返回</a>
-          <h1 class="display-4 text-center">创建个人信息</h1>
+          <h1 class="display-4 text-center">编辑个人信息</h1>
           <p class="lead text-center">写一些有关于你的个人信息</p>
           <small class="d-block pb-3">* = 必填</small>
           <form @submit.prevent="handleSubmit()">
@@ -134,6 +134,12 @@ import TextAreaGroup from "../components/common/TextAreaGroup";
 import InputGroup from "../components/common/InputGroup";
 export default {
   name: "CreateProfile",
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      //   vm.msgInfo = vm.$store.getters.profile;
+      vm.getCurrentProfile();
+    });
+  },
   data() {
     return {
       msgInfo: {
@@ -143,7 +149,7 @@ export default {
         location: "",
         skills: "",
         githubusername: "",
-        status: "* 请选择您的职业",
+        status: "* 选择你的职业",
         bio: "",
         QQ: "",
         wechat: "",
@@ -186,6 +192,25 @@ export default {
             this.errors = err.response.data;
           }
         });
+    },
+    getCurrentProfile() {
+      const profile = this.$store.getters.profile;
+      profile.company = profile.company ? profile.company : "";
+      profile.website = profile.website ? profile.website : "";
+      profile.location = profile.location ? profile.location : "";
+      profile.githubusername = profile.githubusername
+        ? profile.githubusername
+        : "";
+      profile.bio = profile.bio ? profile.bio : "";
+      profile.social = profile.social ? profile.social : "";
+      profile.QQ = profile.social.QQ ? profile.social.QQ : "";
+      profile.wechat = profile.social.wechat ? profile.social.wechat : "";
+      profile.tengxunkt = profile.social.tengxunkt
+        ? profile.social.tengxunkt
+        : "";
+      profile.wangyikt = profile.social.wangyikt ? profile.social.wangyikt : "";
+      profile.skills = profile.skills.length ? profile.skills.join(",") : "";
+      this.msgInfo = profile;
     }
   }
 };

@@ -65,6 +65,8 @@ export default {
           // 存储isLogin的值到vuex
           this.$store.dispatch("setIsLoginAsync", !this.isEmpty(decoded));
 
+          this.errors = {};
+
           // 页面跳转
           this.$router.push("/dashboard");
         })

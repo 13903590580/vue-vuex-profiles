@@ -42,7 +42,10 @@ export default {
   methods: {
     logout() {
       localStorage.removeItem("jwtToken");
+      // vuex状态初始化
       this.$store.dispatch("setIsLoginAsync", false);
+      this.$store.dispatch("setProfileAsync", null);
+      this.$store.dispatch("setUserAsync", null);
       this.$router.push("/login");
     }
   }

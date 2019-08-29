@@ -70,6 +70,7 @@ export default {
       this.$axios
         .post("/api/users/register", this.newUser)
         .then(res => {
+          this.errors = {};
           this.$router.push("/login");
         })
         .catch(err => {

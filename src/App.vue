@@ -5,6 +5,7 @@
       <router-view />
     </keep-alive>
     <Footer />
+    <Loading v-show="loading" />
   </div>
 </template>
 
@@ -13,9 +14,12 @@ import Nav from "./components/Nav";
 import Footer from "./components/Footer";
 import Landing from "./views/Landing";
 import jwt_decode from "jwt-decode";
+import Loading from "./components/common/Loading";
+import { mapGetters } from "vuex";
 
 export default {
   name: "App",
+  computed: mapGetters(["loading"]),
   created() {
     if (localStorage.jwtToken) {
       const decoded = jwt_decode(localStorage.jwtToken);
@@ -49,7 +53,8 @@ export default {
   components: {
     Nav,
     Footer,
-    Landing
+    Landing,
+    Loading
   }
 };
 </script>
