@@ -56,6 +56,24 @@ const route = new Router({
       component: () => import('./views/AddEducation.vue')
     },
     {
+      path: '/profiles',
+      name: 'profiles',
+      // 懒加载
+      component: () => import('./views/Profiles.vue')
+    },
+    {
+      path: '/profile',
+      name: 'profile',
+      // 懒加载
+      component: () => import('./views/Profile.vue')
+    },
+    {
+      path: '/feed',
+      name: 'feed',
+      // 懒加载
+      component: () => import('./views/Posts.vue')
+    },
+    {
       path: "*",
       redirect: "/"
     }

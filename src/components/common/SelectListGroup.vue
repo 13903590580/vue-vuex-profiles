@@ -7,7 +7,7 @@
       :value="value"
       @input="$emit('input',$event.target.value)"
     >
-      <option v-for="(option, index) in options" :key="index" :value="value">{{option.value}}</option>
+      <option v-for="(option, index) in options" :key="index" :value="option.value">{{option.value}}</option>
     </select>
     <div v-if="error" class="invalid-feedback">{{error}}</div>
     <small v-if="info" class="form-text text-muted">{{info}}</small>

@@ -7,12 +7,13 @@
           <h1 class="display-4">仪表盘</h1>
           <p v-if="user != null && profile != null" class="lead text-muted">
             Welcome
-            <router-link :to="`/profile/` + profile.handle">{{user.name}}</router-link>
+            <router-link :to="{name:'profile',params:{handle:profile.handle}}">{{user.name}}</router-link>
           </p>
           <div v-if="profile != null">
             <ProfileActived />
             <!-- 工作经验 和 教育经历 -->
             <Experience @handleDashDelete="handleExpDelete" :experience="profile.experience" />
+            <Education @handleEduDelete="handleEduDelete" :education="profile.education" />
             <!-- 删除 -->
             <div style="margin-bottom: 60px;">
               <button class="btn btn-danger" @click="deleteClick">删除当前账户</button>
@@ -33,11 +34,13 @@
 import { mapGetters } from "vuex";
 import ProfileActived from "../components/common/ProfileActived";
 import Experience from "../components/common/Experience";
+import Education from "../components/common/Education";
 export default {
   name: "DashBoard",
   components: {
     ProfileActived,
-    Experience
+    Experience,
+    Education
   },
   computed: mapGetters(["user"]),
   data() {
@@ -80,6 +83,12 @@ export default {
     },
     handleExpDelete(id) {
       this.$axios.delete("/api/profile/experience/" + id).then(res => {
+        // console.log(res.data);
+        this.profile = res.data;
+      });
+    },
+    handleEduDelete(id) {
+      this.$axios.delete("/api/profile/education/" + id).then(res => {
         // console.log(res.data);
         this.profile = res.data;
       });
